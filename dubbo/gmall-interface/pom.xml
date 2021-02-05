@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.atguigu.gmall</groupId>
+    <artifactId>gmall-interface</artifactId>
+        <packaging>pom</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <modules>
+        <module>../gmall-interface</module>
+        <module>../order-service-consumer</module>
+        <module>../user-service-provider</module>
+        <module>../boot-order-service-consumer</module>
+        <module>../boot-user-service-provider</module>
+    </modules>
+</project>

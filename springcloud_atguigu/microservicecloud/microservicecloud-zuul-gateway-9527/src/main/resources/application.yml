@@ -1,0 +1,34 @@
+
+server:
+  port: 9527
+spring:
+  application:
+    name: microservicecloud-zuul-gateway
+
+eureka:
+  instance:
+    instance-id: gateway-9527.com
+    prefer-ip-address: true
+  client:
+    service-url:
+      # 单机版配置defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka #设置与eureka server 交互的地址查询服务和注册服务都需要依赖的地址
+      # 集群配置
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+
+# 配置zuul的路由映射规则
+zuul:
+  routes:
+    mydept.serviceId: microservicecloud-dept  # http://myzuul.com:9527/study-springcloud-dept/dept/findById/1
+    mydept.path: /mydept/**                   # http://myzuul.com:9527/mydept/dept/findById/1
+  # 原真实服务名忽略，多个用"*" ignored-services: "*"
+  ignored-services: microservicecloud-dept # 要用小写
+  # 加统一前缀，http://myzuul.com:9527/springcloud/mydept/dept/findById/1
+  prefix: /atguigu
+
+
+
+info:
+  app.name: springcloud-study-zuul-gateway
+  company.name: www.gxs.com
+  build.artifactId: ${project.artifactId}
+  build.version: ${project.version}

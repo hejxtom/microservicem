@@ -1,0 +1,14 @@
+server:
+  port: 80
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka
+    register-with-eureka: false
+
+ #版本问题，此需要看配置类 com.atguigu.springcloud.config.HystrixFeignConfiguration
+feign:
+  hystrix:
+    enabled: ture #feign开启hystrix，使其在api模块中的服务降级，统一处理熔断
+

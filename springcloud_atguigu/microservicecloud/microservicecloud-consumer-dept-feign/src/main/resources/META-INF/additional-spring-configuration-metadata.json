@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "feign.hystrix.enabled",
+      "type": "java.lang.String",
+      "description": "Description for feign.hystrix.enabled."
+    },
+    {
+      "name": "feign.hystrix.enabled",
+      "type": "java.lang.String",
+      "description": "Description for feign.hystrix.enabled."
+    }
+  ] }
