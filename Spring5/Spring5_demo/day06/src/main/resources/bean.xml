@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--   开启组件扫描 -->
+    <context:component-scan base-package="com.atguigu.spring5"></context:component-scan>
+    <!--   引入外部配置文件 -->
+    <context:property-placeholder location="jdbc.properties"/>
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driverClass}"></property>
+        <property name="url" value="${jdbc.url}"></property>
+        <property name="username" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+    <!--   JdbcTemplate -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <!--    在 JdbcTemplate 注入 DataSource    -->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--创建事务管理器-->
+    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--        注入数据源-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+<!-- 开启事务注解   -->
+    <tx:annotation-driven transaction-manager="dataSourceTransactionManager"></tx:annotation-driven>
+</beans>

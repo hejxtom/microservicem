@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+    <!--  Spring希望管理所有的业务逻辑组件  -->
+
+    <!-- 剔除Controller注解不扫描   -->
+    <context:component-scan base-package="com.atguigu.mybatis">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--  引入数据库配置文件  -->
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+
+    <!--  Spring用来控制业务逻辑  -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="jdbcUrl" value="${jdbc.url}"></property>
+        <property name="driverClass" value="${jdbc.driver}"></property>
+        <property name="user" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+
+<!--  Spring事务管理器  -->
+    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+<!--   开启基于注解的事务 -->
+    <tx:annotation-driven transaction-manager="dataSourceTransactionManager"></tx:annotation-driven>
+
+    <!--
+        整合MyBatis:
+            目的：1.Spring管理所有组件。mapper的实现类。
+                2.Spring用来管理事务
+    -->
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--   configLocation:指定ByBatis配置文件的位置     -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <property name="dataSource" ref="dataSource"></property>
+
+        <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+    </bean>
+
+
+    <!--    <mybatis-spring:scan base-package="com.atguigu.mybatis.dao"></mybatis-spring:scan>-->
+
+    <!-- 配置扫描器，将mybatis接口的实现加入到ioc容器中 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--扫描所有dao接口的实现，加入到ioc容器中 -->
+        <property name="basePackage" value="com.atguigu.mybatis.dao"></property>
+    </bean>
+
+    <!-- 配置一个可以执行批量的sqlSession -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"></constructor-arg>
+        <constructor-arg name="executorType" value="BATCH"></constructor-arg>
+    </bean>
+</beans>

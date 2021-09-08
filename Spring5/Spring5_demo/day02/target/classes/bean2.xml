@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="myBean" class="com.atguigu.spring5.factorybean.MyBean">
+    </bean>
+
+    <!--
+      bean的作用域：
+      scope="singleton"(默认)  单实例对象  加载Spring配置文件的时候创建单实例对象
+      scope="prototype"       多实例对象   在调用getBean()方法时候创建多实例对象
+     -->
+    <bean id="book" class="com.atguigu.spring5.collectiontype.Book" scope="prototype">
+        <property name="list">
+            <list>
+                <value>异径经</value>
+                <value>九阳神功</value>
+                <value>九阴真经</value>
+            </list>
+        </property>
+    </bean>
+</beans>

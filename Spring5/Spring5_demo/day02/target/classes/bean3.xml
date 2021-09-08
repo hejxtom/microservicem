@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="orders" class="com.atguigu.spring5.bean.Orders" init-method="initMentod" destroy-method="destroyMethod">
+        <property name="oname" value="手机"/>
+    </bean>
+    <!--  配置后置处理器:为所有在此配置文件中配置的bean都会配置myBeanPostProcess（后置处理器） -->
+    <bean id="myBeanPostProcess" class="com.atguigu.spring5.bean.MyBeanPostProcess">
+
+    </bean>
+</beans>

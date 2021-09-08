@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+namespace:名称空间;指定为接口的全类名
+id：唯一标识
+resultType：返回值类型
+#{id}：从传递过来的参数中取出id值
+
+对应的方法：public Employee getEmpById(Integer id);
+-->
+<mapper namespace="com.atguigu.mybatis.dao.EmployeeMapperDynamicSQL">
+
+    <!--    开启驼峰命名法后    -->
+    <!--  <select id="getEmpById" resultType="com.atguigu.mybatis.bean.Employee">
+        select *
+        from tbl_employee
+        where id = #{id}
+    </select>-->
+
+    <!--  取别名后  -->
+<!--    <select id="getEmpById" resultType="employee">
+        select id,
+               last_name lastName,
+               email,
+               gender
+        from tbl_employee
+        where id = #{id}
+    </select>-->
+
+
+    <!--
+        databaseId属性：标识数据库厂商id
+        与<databaseIdProvider/>(定义在mybatis-config.xml)配套使用
+    -->
+    <select id="getEmpById" resultType="com.atguigu.mybatis.bean.Employee" databaseId="mysql">
+        select id,
+               last_name lastName,
+               email,
+               gender
+        from tbl_employee
+        where id = #{id}
+    </select>
+</mapper>

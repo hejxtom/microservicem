@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 一、配置User对象创建-->
+    <bean id="user" class="com.atguigu.spring5.User">
+        <property name="username" value="tom"/>
+    </bean>
+
+    <!--
+    二、基于xml方式注入属性
+    DI:依赖注入，就是注入属性
+    -->
+    <bean id="book" name="book2" class="com.atguigu.spring5.Book">
+        <!--
+        1.使用set方法注入属性：
+          使用property完成属性注入
+             name:类里面属性的名字
+             value:所要设置的值
+        -->
+        <property name="bname" value="JAVA EE "/>
+        <!--
+        2.有参构造输入属性(若没有constructor-arg则需要提供无参构造器)
+        -->
+        <constructor-arg name="avta" value="atguigu"/>
+        <constructor-arg name="bid" value="111"/>
+
+        <!--
+        <constructor-arg name="avta">
+            <value>atguigu</value>
+        </constructor-arg>
+        <constructor-arg name="bid">
+            <value>111</value>
+        </constructor-arg>
+        -->
+
+        <!--
+        index:表示有参构造中的参数列表索引值(从0开始)
+        -->
+        <!--      <constructor-arg index="0" value="hejxtom"/>-->
+    </bean>
+
+    <!-- 3.p名称空间注入(底层：set方法注入)  -->
+    <bean id="user1" class="com.atguigu.spring5.User" p:username="hejxtom"/>
+
+    <!--   三、使用set方法注入属性的扩展-->
+    <bean id="order" class="com.atguigu.spring5.Orders">
+        <!-- 1.null值的设值：使用null标签-->
+        <property name="oname">
+            <null></null>
+        </property>
+        <!--  2.属性包含特殊符号
+             第一种：把<>转义
+             第二种：把带有特殊符号内容写到CDATA:原样输出
+             -->
+        <property name="address">
+            <value><![CDATA[<<南京>>]]></value>
+        </property>
+    </bean>
+
+    <!--    3.注入外部bean-->
+    <!--    3.1 service和dao对象的创建-->
+    <bean id="userService" class="com.atguigu.spring5.service.UserService">
+        <!--
+            注入userDao对象
+               name属性：类中属性的名称
+               ref属性：创建userDao对象bean标签id值
+         -->
+        <property name="userDao" ref="userDaoImpl"/>
+    </bean>
+    <bean id="userDaoImpl" class="com.atguigu.spring5.dao.UserDaoImpl"/>
+
+    <!--  4.内部bean  -->
+    <!-- 4.1 一对多   -->
+    <bean id="emp" class="com.atguigu.spring5.bean.Emp">
+        <property name="ename" value="lucy"/>
+        <property name="gender" value="女"/>
+        <!--  设置对象类型属性-->
+        <!-- 级联赋值   -->
+        <property name="dept">
+            <bean id="dept" class="com.atguigu.spring5.bean.Dept">
+                <property name="dname" value="安保部"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- 级联赋值1   -->
+    <bean id="emp1" class="com.atguigu.spring5.bean.Emp">
+        <property name="ename" value="lucy"/>
+        <property name="gender" value="女"/>
+        <!--  设置对象类型属性-->
+        <!-- 级联赋值   -->
+        <property name="dept" ref="dept1"/>
+    </bean>
+
+    <bean id="dept1" class="com.atguigu.spring5.bean.Dept">
+        <property name="dname" value="财务部"/>
+    </bean>
+
+    <!-- 级联赋值2   -->
+    <bean id="emp2" class="com.atguigu.spring5.bean.Emp">
+        <property name="ename" value="lucy"/>
+        <property name="gender" value="女"/>
+        <!--  设置对象类型属性-->
+        <!-- 级联赋值   -->
+        <!--  需要get方法以及 ‘<property name="dept" ref="dept2"/>’-->
+        <property name="dept" ref="dept2"/>
+        <property name="dept.dname" value="技术部"/>
+    </bean>
+    <bean id="dept2" class="com.atguigu.spring5.bean.Dept">
+        <!--        <property name="dname" value="财务部"/>-->
+    </bean>
+
+</beans>

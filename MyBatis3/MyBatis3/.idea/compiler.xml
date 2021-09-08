@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="MyBatis_09_source" />
+        <module name="MyBatis_10_plugin" />
+        <module name="MyBatis_02_Config" />
+        <module name="MyBatis_07_mbg" />
+        <module name="MyBatis_01_Helloworld" />
+        <module name="MyBatis_05_cache" />
+        <module name="MyBatis_06_ssm" />
+        <module name="MyBatis_04_DynamicSQL" />
+        <module name="MyBatis_11_other" />
+        <module name="MyBatis_03_Mapper" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

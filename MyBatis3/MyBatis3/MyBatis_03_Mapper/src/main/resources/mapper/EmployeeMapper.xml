@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+namespace:名称空间;指定为接口的全类名
+id：唯一标识
+resultType：返回值类型
+#{id}：从传递过来的参数中取出id值
+
+对应的方法：public Employee getEmpById(Integer id);
+-->
+<mapper namespace="com.atguigu.mybatis.dao.EmployeeMapper">
+
+    <!--    开启驼峰命名法后    -->
+    <!--  <select id="getEmpById" resultType="com.atguigu.mybatis.bean.Employee">
+        select *
+        from tbl_employee
+        where id = #{id}
+    </select>-->
+
+    <!--  取别名后  -->
+<!--    <select id="getEmpById" resultType="employee">
+        select id,
+               last_name lastName,
+               email,
+               gender
+        from tbl_employee
+        where id = #{id}
+    </select>-->
+
+
+    <!--
+        databaseId属性：标识数据库厂商id
+        与<databaseIdProvider/>(定义在mybatis-config.xml)配套使用
+    -->
+    <select id="getEmpById" resultType="com.atguigu.mybatis.bean.Employee" databaseId="mysql">
+        select id,
+               last_name lastName,
+               email,
+               gender
+        from tbl_employee
+        where id = #{id}
+    </select>
+
+    <!-- public void addEmp(Employee employee); -->
+    <!--
+            parameterType：参数类型，可以省略，
+        获取自增主键的值：
+            mysql支持自增主键，自增主键值的获取，mybatis也是利用statement.getGenreatedKeys()；
+            useGeneratedKeys="true"；使用自增主键获取主键值策略
+            keyProperty；指定对应的主键属性，也就是mybatis获取到主键值以后，将这个值封装给javaBean的哪个属性
+    -->
+
+    <insert id="addEmp" parameterType="com.atguigu.mybatis.bean.Employee" useGeneratedKeys="true" keyProperty="id">
+        <!--
+            selectKey：
+                  keyProperty：selectKey语句结果应该被设置的目标属性
+                  order：可以被设置为BEFORE或AFTER。
+                        如果设置BEFORE,那么它会首先选择主键，设置keyProperty然后执行插入语句
+                        如果设置AFTER,先执行插入语句，然后selectKey
+           -->
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            select if(max(id) is null,1,max(id)+1) as newid from tbl_employee
+        </selectKey>
+        insert into tbl_employee(id,last_name, email, gender)
+        values (#{id},#{lastName}, #{email}, #{gender})
+    </insert>
+
+    <update id="updateEmp" parameterType="com.atguigu.mybatis.bean.Employee">
+        update tbl_employee
+        set last_name=#{lastName},
+            email=#{email},
+            gender=#{gender}
+        where id = #{id}
+    </update>
+
+   <delete id="deleteEmpById" parameterType="java.lang.Integer">
+       delete from tbl_employee where id=#{id}
+   </delete>
+
+
+    <select id="getEmpByIdAndLastName" resultType="com.atguigu.mybatis.bean.Employee">
+        select * from tbl_employee where id=#{id}  and last_name=#{lastName}
+    </select>
+
+
+    <!-- resultType:如果返回的是一个集合，要写集合中元素的类型  -->
+    <select id="getEmpByLastNameLike" resultType="com.atguigu.mybatis.bean.Employee">
+        select *
+        from tbl_employee
+        where last_name like concat('%', #{lastName}, '%')
+    </select>
+
+
+    <select id="getEmpByIdReturnMap" resultType="map">
+        select * from tbl_employee where id=#{id};
+    </select>
+
+    <!-- 此时resultType:如果返回的是一个集合，写集合中元素的类型  -->
+    <select id="getEmpByLastNameLikeReturnMap" resultType="com.atguigu.mybatis.bean.Employee">
+        select *
+        from tbl_employee
+        where last_name like concat('%', #{lastName}, '%')
+    </select>
+
+
+</mapper>

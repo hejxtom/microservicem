@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<p><a th:href="@{/testRequestByServletAPI}">测试ServletAPI共享数据到request</a></p>
+<p>*************</p>
+<p><a th:href="@{/testModelAndView}">测试ModelAndView共享数据到request</a></p>
+<p><a th:href="@{/testModel}">测试Model共享数据到request</a></p>
+<p><a th:href="@{/testMap}">测试Map共享数据到request</a></p>
+<p><a th:href="@{/testModelMap}">测试ModelMap共享数据到request</a></p>
+<p>*************</p>
+<p><a th:href="@{/testSession}">测试ServletAPI(HttpSession)共享数据到session</a></p>
+<p>*************</p>
+<p><a th:href="@{/testApplication}">测试ServletAPI(HttpSession)共享数据到application</a></p>
+<p>
+</p>
+<p><a th:href="@{/testView}">testView</a></p>
+<p>
+</p>
+<p><a th:href="@{/testRest}">testRest</a></p>
+</body>
+</html>
